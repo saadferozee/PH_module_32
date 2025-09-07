@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Testing 2</title>
+
+    <style>
+        #card-container {
+            margin: 30px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 15px;
+            /* grid-column-gap: 30px; */
+        }
+
+        .card {
+            height: 90%;
+            border: solid 1px #00000020;
+            border-radius: 5px;
+            box-shadow: 2px 2px 4px 0px #00000010;
+            padding: 10px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card h6 {
+            text-align: end;
+        }
+        .card p {
+            text-align: justify;
+            font-size: small;
+        }
+    </style>
+</head>
+
+<body>
+    <button onclick="getPosts()">
+        show data
+    </button>
+    <div id="card-container"></div>
+    <script>
+        const api = 'https://jsonplaceholder.typicode.com/posts/'
+
+        const getPosts = () => {
+            fetch(api)
+                .then(response => response.json())
+                .then(data => showData(data));
+        }
+
+        const showData = (posts) => {
+            const container = document.getElementById('card-container');
+            container.innerHTML = "";
+            // console.log(container);
+            posts.forEach(post => {
+                const cardBluePrint = `
+                    <div class="card">
+                        <h6>${post.id}</h6>
+                        <h3>${post.title}</h3>
+                        <p>${post.body}</p>
+                    </div>
+                `
+                addNewElement(cardBluePrint, container);
+            });
+        }
+
+        const addNewElement = (content, container) => {
+            const parent = container;
+            const newElement = document.createElement('div');
+            newElement.innerHTML = content;
+            parent.appendChild(newElement);
+        }
+    </script>
+</body>
+
+</html>
